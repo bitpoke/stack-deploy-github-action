@@ -4,11 +4,20 @@ inputs:
   image:
     description: 'Docker image to replace with'
     required: true
+  wordpress:
+    description: 'WordPress resource name to update'
+    required: true
   namespace:
     description: 'Namespace in which to apply the changes'
     required: true
-  wordpress:
-    description: 'WordPress resource name to update'
+  google_project:
+    description: 'Google project where the k8s cluster is'
+    required: true
+  google_zone:
+    description: 'Google zone where the k8s cluster is'
+    required: true
+  google_cluster:
+    description: 'Kubernetes cluster name'
     required: true
 runs:
   using: 'docker'

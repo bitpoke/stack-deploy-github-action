@@ -4,11 +4,18 @@
 set -e
 set -o pipefail
 
-function sanitize() {
+sanitize() {
   if [ -z "${1}" ]; then
     >&2 echo "Unable to find the ${2}. Did you set with.${2}?"
     exit 1
   fi
+}
+
+require_google_credentials() {
+    if [ -z "$GOOGLE_CREDENTIALS" ] ; then
+        echo "You must define \"google_credentials_file\" parameter or define GOOGLE_CREDENTIALS environment variable" >&2
+        exit 2
+    fi
 }
 
 run() {
@@ -16,8 +23,12 @@ run() {
     "$@"
 }
 
-function main() {
+main() {
     echo "" # see https://github.com/actions/toolkit/issues/168
+
+    sanitize "${INPUT_GOOGLE_PROJECT}" "google_project"
+    sanitize "${INPUT_GOOGLE_CLUSTER}" "google_cluster"
+    sanitize "${INPUT_GOOGLE_ZONE}" "google_zone"
 
     sanitize "${INPUT_NAMESPACE}" "namespace"
     sanitize "${INPUT_WORDPRESS}" "wordpress"
@@ -26,6 +37,18 @@ function main() {
     if [ ! -z "$GOOGLE_CREDENTIALS" ] ; then
         echo "$GOOGLE_CREDENTIALS" > /run/google-credentials.json
         run gcloud auth activate-service-account --key-file=/run/google-credentials.json
+    fi
+
+    if [ ! -z "$PROJECT" ] ; then
+        run gcloud config set project "$PROJECT"
+    fi
+
+    if [ ! -z "$CLUSTER" ] ; then
+        require_google_credentials
+
+        run gcloud container clusters get-credentials "$CLUSTER" --project "$PROJECT" --zone "$ZONE"
+        # Display kubernetees versions (usefull for debugging)
+        run kubectl version
     fi
 
     kubectl -n "${INPUT_NAMESPACE}" patch wordpress "${INPUT_WORDPRESS}" --type=json -p '[{"op": "replace", "path": "/spec/image", "value": "${INPUT_IMAGE}"}]'
