@@ -11,5 +11,15 @@ RUN curl -sL -o /usr/local/bin/kubectl "https://storage.googleapis.com/kubernete
     && chmod 0755 /usr/local/bin/kubectl \
     && chown root:root /usr/local/bin/kubectl
 
+# https://cloud.google.com/sdk/docs/downloads-versioned-archives
+ENV GCLOUD_SDK_VERSION="254.0.0"
+ENV CLOUDSDK_PYTHON="/usr/bin/python2.7"
+ENV GOOGLE_APPLICATION_CREDENTIALS="/run/google-credentials.json"
+RUN curl -sL -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${GCLOUD_SDK_VERSION}-linux-x86_64.tar.gz \
+    && tar -zxf google-cloud-sdk.tar.gz \
+    && mv google-cloud-sdk /opt/ \
+    && rm google-cloud-sdk.tar.gz \
+    && /opt/google-cloud-sdk/bin/gcloud --quiet components install beta
+
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
