@@ -30,7 +30,7 @@ jobs:
       with:
         namespace: proj-rl3e02
         wordpress: myawesomesite-2e304
-        image: gcr.io/test-stack/foxes:${{ steps.build.output.tag }}
+        image: gcr.io/test-stack/foxes:${{ steps.build.outputs.tag }}
         google_project: vlads-ureactor
         google_zone: europe-west2
         google_cluster: stack
