@@ -39,14 +39,14 @@ main() {
         run gcloud auth activate-service-account --key-file=/run/google-credentials.json
     fi
 
-    if [ ! -z "$PROJECT" ] ; then
-        run gcloud config set project "$PROJECT"
+    if [ ! -z "${INPUT_GOOGLE_PROJECT}" ] ; then
+        run gcloud config set project "${INPUT_GOOGLE_PROJECT}"
     fi
 
-    if [ ! -z "$CLUSTER" ] ; then
+    if [ ! -z "${INPUT_GOOGLE_CLUSTER}" ] ; then
         require_google_credentials
 
-        run gcloud container clusters get-credentials "$CLUSTER" --project "$PROJECT" --zone "$ZONE"
+        run gcloud container clusters get-credentials "${INPUT_GOOGLE_CLUSTER}" --project "${INPUT_GOOGLE_PROJECT}" --zone "${INPUT_GOOGLE_ZONE}"
         # Display kubernetees versions (usefull for debugging)
         run kubectl version
     fi
