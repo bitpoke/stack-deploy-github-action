@@ -21,5 +21,7 @@ RUN curl -sL -o google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channe
     && rm google-cloud-sdk.tar.gz \
     && /opt/google-cloud-sdk/bin/gcloud --quiet components install beta
 
+ENV PATH="/opt/google-cloud-sdk/bin:${PATH}"
+
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
