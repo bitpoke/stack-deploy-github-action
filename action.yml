@@ -1,0 +1,15 @@
+name: 'Deploy WordPress on Stack'
+description: 'Use github actions to deploy a new WordPress image on a Stack cluster.'
+inputs:
+  image:
+    description: 'Docker image to replace with'
+    required: true
+  namespace:
+    description: 'Namespace in which to apply the changes'
+    required: true
+  wordpress:
+    description: 'WordPress resource name to update'
+    required: true
+runs:
+  using: 'docker'
+  image: 'docker://quay.io/presslabs/stack-deployer'
