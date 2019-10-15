@@ -6,7 +6,7 @@ LABEL "maintainer"="Presslabs <support@presslabs.com>"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # install kubectl
-ENV KUBECTL_VERSION="1.60.0"
+ENV KUBECTL_VERSION="1.16.0"
 RUN curl -sL -o /usr/local/bin/kubectl "https://storage.googleapis.com/kubernetes-release/release/v{$KUBECTL_VERSION}/bin/linux/amd64/kubectl" \
     && chmod 0755 /usr/local/bin/kubectl \
     && chown root:root /usr/local/bin/kubectl

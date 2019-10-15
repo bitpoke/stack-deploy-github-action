@@ -51,7 +51,7 @@ main() {
         run kubectl version
     fi
 
-    kubectl -n "${INPUT_NAMESPACE}" patch wordpress "${INPUT_WORDPRESS}" --type=json -p '[{"op": "replace", "path": "/spec/image", "value": "${INPUT_IMAGE}"}]'
+    kubectl -n "${INPUT_NAMESPACE}" patch wordpress "${INPUT_WORDPRESS}" --type=json -p "[{\"op\": \"replace\", \"path\": \"/spec/image\", \"value\": \"${INPUT_IMAGE}\"}]"
 }
 
 main
