@@ -14,3 +14,4 @@ jobs:
         name: quay.io/presslabs/stack-deployer
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+        registry: quay.io
